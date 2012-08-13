@@ -185,7 +185,7 @@ class sesPhpMailer extends AmazonSES {
             return false;
         }
         
-        $formated = trim($name . ' <' . $address . '>');
+        $formated = trim('"'.$name.'"' . ' <' . $address . '>');
         
         switch ($kind){
             case 'to': $this->to[] = $formated; break;
