@@ -22,14 +22,8 @@ class sesPhpMailer extends AmazonSES {
     public $ErrorInfo         = '';
 
     /**
-    * Sets the From email address for the message.
-    * @var string
-    */
-    public $From              = '';
-
-    /**
-    * Sets the Sender email (Return-Path) of the message.  If not empty,
-    * will be sent via -f to sendmail or as 'MAIL FROM' in smtp mode.
+    * Sets the Sender email (Return-Path) of the message.
+    * A verified email from amazon is a better option
     * @var string
     */
     public $Sender            = '';
@@ -70,6 +64,7 @@ class sesPhpMailer extends AmazonSES {
     protected   $cc             = array();
     protected   $bcc            = array();
     protected   $ReplyTo        = array();
+    protected   $From           = 'root@localhost';
     protected   $error_count    = 0;
     protected   $arrConfig      = array(); //set array config with amazon credentials
     protected   $ContentType    = 'Html';
@@ -85,16 +80,23 @@ class sesPhpMailer extends AmazonSES {
     }
 
     /**
-    * Sets Credentials for login into amazonSES.
+    * Sets Credentials for login into amazonAWS API.
     * @param string $strKey // Amazon Key for aws account
     * @param string $strSecret // Secret Key for aws account
-    * @return void
+    * @return bool
     */
     public function amazonPass($strKey, $strSecret){
+        if(empty($strKey) || empty($strSecret)){
+            $this->SetError('Empty api key or secret key!');
+            return false;
+        }
+
         $this->arrConfig = array(
             'key' => $strKey,
             'secret' => $strSecret
         );
+
+        return true;
     }
     
     /**
@@ -312,6 +314,11 @@ class sesPhpMailer extends AmazonSES {
     // SEND METHOD
     ///////////////////////////////////////////////
     
+    /**
+    * Last validation before send
+    * Returns void.
+    * @return void
+    */
     protected function PreSend() {
    
         if (count($this->to) < 1) {
@@ -328,6 +335,11 @@ class sesPhpMailer extends AmazonSES {
         return true;
     }
     
+    /**
+    * Send email to Amazon SES for process
+    * Returns bool TRUE then send ok, or FALSE in case of errors.
+    * @return bool
+    */
     public function Send(){
 
         if(!$this->PreSend()){

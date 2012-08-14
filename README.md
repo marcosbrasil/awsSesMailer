@@ -1,4 +1,4 @@
-# awsSesMailer
+# awsSesMailer - [About](http://www.verbose.com.br/2012/08/amazon-ses-simple-email-service.html)
 
 PHPMailer like, class for send emails with Amazon AWS **Simple Email Service (SES)**
 
@@ -8,10 +8,27 @@ PHPMailer like, class for send emails with Amazon AWS **Simple Email Service (SE
 
 The `$key` and `$secretKey` are required for auth with AWS API
 
-## Public Methods
+## Public Atributes
 
 * **Sets the CharSet of the message** : `$sesMailer->CharSet = 'UTF-8';`
 * **Holds the most recent mailer error message.** : `echo $sesMailer->ErrorInfo;`
+* **Sets the Sender email (Return-Path) of the message: ** `$sesMailer->Sender = 'email@yourdomain.com';`
+* **Sets the Body of the message: ** `$sesMailer->Body = '<b>HTML</b> or Text formats'`
+* **Set the Return Path to email message: ** `$sesMailer->ReturnPath = 'return@email.com'`
+
+## Public Methods
+
+* **Adds a "To" address (Max 50 for each sent email): ** `$sesMailer->AddAddress($strEmail, $strName);`
+* **Adds a "Cc" address (Max 50): ** `$sesMailer->AddCC($strEmail, $strName);`
+* **Adds a "Bcc" address (Max 50): ** `$sesMailer->AddBCC($strEmail, $strName);`
+* **Adds a "Reply-to" address: ** `$sesMailer->AddReplyTo($strEmail, $strName);`
+* **Set the From and FromName properties: ** `$sesMailer->SetFrom($strEmail, $strName, $boolAuto)`
+* **Clears all recipients assigned in the TO array: ** `$sesMailer->ClearAddresses();`
+* **Clears all recipients assigned in the CC array: ** `$sesMailer->ClearCCs();`
+* **Clears all recipients assigned in the BCC array: ** `$sesMailer->ClearBCCs();`
+* **Clears all recipients assigned in the ReplyTo array: ** `$sesMailer->ClearReplyTos();`
+* **Clears all recipients assigned in the TO, CC and BCC: ** `$sesMailer->ClearAllRecipients();`
+* **Send Email to Amazon. (Return (bool)true or false): ** `$sesMailer->Send();`
 
 ## Minimum Requirements
 
